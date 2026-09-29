@@ -219,6 +219,8 @@ let charlotte = Recipe(name: "🍏🥧 Charlotte", ingredients:
                         Ingredient(
                             name: "🥡 flour", weight: .glass, quantity: 1),
                          Ingredient(name: "🧂 salt", weight: .pinch, quantity: 1),
+                         Ingredient(name: "🍂 cinnamon", weight: .pinch, quantity: 1.0),
+                         Ingredient(name: "🌰 nutmeg", weight: .pinch, quantity: 1),
                          Ingredient(name: "🍏 apple", weight: .piece, quantity: 7),
                          Ingredient(name: "☁️ baking powder", weight: .teaspoon, quantity: 0.5),
                          Ingredient(name: "☁️ powdered sugar", weight: .tablespoon, quantity: 1.0)
@@ -227,13 +229,15 @@ print(charlotte.summary)
 print(charlotte.fullDescription)
 /*
  This is a delicious recipe for '🍏🥧 Charlotte':
-🥚 eggs - 2.0 piece
-🍬 sugar - 1.0 glass
-🥡 flour - 1.0 glass
-🧂 salt - 1.0 pinch
-🍏 apple - 7.0 piece
-☁️ baking powder - 0.5 teaspoon
-☁️ powdered sugar - 1.0 tablespoon
-⏰ Baking time: 45 min.
-🔥 Temperature: 180°C
+ 🥚 eggs - 2.0 piece
+ 🍬 sugar - 1.0 glass
+ 🥡 flour - 1.0 glass
+ 🧂 salt - 1.0 pinch
+ 🍂 cinnamon - 1.0 pinch
+ 🌰 nutmeg - 1.0 pinch
+ 🍏 apple - 7.0 piece
+ ☁️ baking powder - 0.5 teaspoon
+ ☁️ powdered sugar - 1.0 tablespoon
+ ⏰ Baking time: 45 min.
+ 🔥 Temperature: 180°C
  */
