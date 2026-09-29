@@ -169,3 +169,71 @@ func showBinding(for id: String) {
 // MARK: - 🚕💨 ЗАПУСК
 
 showBinding(for: "1")
+
+// MARK: - '🍎 CHARLOTTE RECIPE':Write a program that simulates a charlotte recipe: ingredients, steps, baking time. Use only enum, struct, protocol, computed property, print.
+
+// Data:
+protocol Cookable {
+    var summary: String { get }
+}
+
+enum TableWeightsAndMeasures {
+    case piece, gram, glass, pinch, teaspoon, tablespoon }
+
+struct Ingredient: CustomStringConvertible {
+    let name: String
+    let weight: TableWeightsAndMeasures
+    let quantity: Double
+    
+    var description: String {
+        "\(name) - \(quantity) \(weight)"
+    }
+}
+struct Recipe: Cookable {
+    var summary: String { "This is a delicious recipe for '\(name)':" }
+    
+    let name: String
+    let ingredients: [Ingredient]
+    let time: Int
+    let temperature: Int
+    
+    
+    var fullDescription: String {
+        var result = ""
+        for ingredient in ingredients {
+            result += ingredient.description
+            + "\n"
+        }
+        result += "⏰ Baking time: \(time) min.\n"
+        result += "🔥 Temperature: \(temperature)°C"
+        
+        return result
+    }
+}
+    
+let charlotte = Recipe(name: "🍏🥧 Charlotte", ingredients:
+                        [Ingredient(
+                            name: "🥚 eggs", weight: .piece, quantity: 2),
+                        Ingredient(
+                            name: "🍬 sugar", weight: .glass, quantity: 1),
+                        Ingredient(
+                            name: "🥡 flour", weight: .glass, quantity: 1),
+                         Ingredient(name: "🧂 salt", weight: .pinch, quantity: 1),
+                         Ingredient(name: "🍏 apple", weight: .piece, quantity: 7),
+                         Ingredient(name: "☁️ baking powder", weight: .teaspoon, quantity: 0.5),
+                         Ingredient(name: "☁️ powdered sugar", weight: .tablespoon, quantity: 1.0)
+                        ], time: 45, temperature: 180)
+print(charlotte.summary)
+print(charlotte.fullDescription)
+/*
+ This is a delicious recipe for '🍏🥧 Charlotte':
+🥚 eggs - 2.0 piece
+🍬 sugar - 1.0 glass
+🥡 flour - 1.0 glass
+🧂 salt - 1.0 pinch
+🍏 apple - 7.0 piece
+☁️ baking powder - 0.5 teaspoon
+☁️ powdered sugar - 1.0 tablespoon
+⏰ Baking time: 45 min.
+🔥 Temperature: 180°C
+ */
