@@ -1,15 +1,20 @@
 //
-//  comments.swift
+//  descriptionTypesAndContainers.swift
 //  SwiftBinding
 //
-//  Created by Валерия Пономарева on 29.09.2026.
+//  Created by Валерия Пономарева on 30.09.2026.
 //
 
 import Foundation
 
 // MARK: - 📋 О ПРОЕКТЕ
-
+/**
+ SwiftBinding: An interactive data-driven dictionary app designed to master Swift syntax
+ // by thinking in functional blocks and architectural patterns rather than raw lines of code.
+ */
 // MARK: - 🏷️ КАТЕГОРИИ СВЯЗОК
+// 📦 BINDING 1️⃣: [Types and Containers] -> The foundational architectural block for data modeling.
+// Core Chain: enum (states) → struct (models) → computed property (formatting) → protocol (contracts) → extension (implementation) → typealias (clean syntax).
 
 enum BindingCategory {
     case typesAndContainers
@@ -122,7 +127,7 @@ let bindings: [String: Binding] = [
          }
          
          // 6️⃣ ШАГ 6: typealias — псевдоним для удобства
-         typealias dollars = BankAccount
+         typealias Dollars = BankAccount
 
          // 7️⃣ ШАГ 7: запуск
          var account = Dollars(balance: 100.0, type: .usd)
@@ -163,4 +168,97 @@ func showBinding(for id: String) {
 
 // MARK: - 🚕💨 ЗАПУСК
 
-// showBinding(for: "1")
+/* showBinding(for: "1")
+print("📋 Swift Patterns Dictionary: A dictionary app for interactive learning, revision, and quick reference of engineering patterns and Swift language bindings.")
+print("🖖 Авторы: vale.ponick 🚕💨, DeepSeek AI Spock 🖖, Google AI, bro 🧠")
+print("📌 Принцип: «Не просто учи тему — сразу проектируй инструмент, который поможет её применять.»")
+print("") */
+
+/**
+ 📦 1️⃣ Типы и контейнеры
+ 🎯 Цель: Создание моделей данных
+ 📖 Описание:
+ 📌 Связка 1️⃣: Типы и контейнеры
+
+ 🔹 Цель:
+ Создание моделей данных через enum, struct и protocol.
+
+ 🔹 Порядок (архитектура):
+ enum → struct → computed property → protocol → extension → typealias → запуск
+
+ 🔹 Что происходит на каждом шаге:
+
+ 🧩 ШАГ 1: enum — фиксированные варианты (value-type)
+ → Задаёт список возможных состояний (тип валюты).
+
+ 🧩 ШАГ 2: struct — модель данных (value-type)
+ → Хранит баланс и тип валюты.
+
+ 🧩 ШАГ 3: вычисляемое свойство (Computed Property)
+ → Форматирует баланс в зависимости от типа валюты без явного return.
+
+ 🧩 ШАГ 4: protocol — контракт
+ → Определяет, что должен уметь объект (баланс и метод withdraw).
+
+ 🧩 ШАГ 5: extension — реализация контракта (mutating)
+ → Добавляет метод withdraw с проверками и изменением баланса для структур.
+
+ 🧩 ШАГ 6: typealias — псевдоним типов
+ → Делает код более читаемым, заменяя сложные типы на простые имена.
+
+ 🧩 Компоненты:
+   • enum → enum Name { case one, two }  // enum CurrencyType { case usd, euro }
+   • struct → struct Name { let id: Int }  // struct BankAccount { var balance: Double }
+   • protocol → protocol Name { func m() }  // protocol Chargeable { var balance: Double { get } }
+   • typealias → typealias Name = ExistingType  // typealias Dollars = BankAccount
+   • associatedtype → associatedtype Item  // Используется как дженерик внутри протоколов
+
+ 💻 Пример кода (скопируй и запусти):
+ // 🧪 ЖИВОЙ ПРИМЕР: 1️⃣ ТИПЫ И КОНТЕЙНЕРЫ
+
+ // 1️⃣ ШАГ 1: enum — список состояний
+ enum CurrencyType {
+     case usd
+     case euro
+ }
+
+ // 2️⃣ ШАГ 2: struct — модель данных
+ struct BankAccount {
+     var balance: Double
+     let type: CurrencyType
+
+     // 3️⃣ ШАГ 3: вычисляемое свойство (Swift Style: без return)
+     var formattedBalance: String {
+         switch type {
+         case .usd: "$\(balance)"
+         case .euro: "€\(balance)"
+         }
+     }
+ }
+
+ // 4️⃣ ШАГ 4: protocol — контракт
+ protocol Chargeable {
+     var balance: Double { get }
+     func withdraw(amount: Double)
+ }
+
+ // 5️⃣ ШАГ 5: extension — реализация контракта
+ extension BankAccount: Chargeable {
+     mutating func withdraw(amount: Double) {
+         guard amount > 0, balance >= amount else {
+             print("❌ Ошибка: сумма некорректна или недостаточно средств")
+             return
+         }
+         balance -= amount
+         print("✅ Списано \(amount). Баланс: \(formattedBalance)")
+     }
+ }
+
+ // 6️⃣ ШАГ 6: typealias — псевдоним для удобства
+ typealias Dollars = BankAccount
+
+ // 7️⃣ ШАГ 7: запуск
+ var account = Dollars(balance: 100.0, type: .usd)
+ account.withdraw(amount: 30.0)
+ // Выведет в консоль: ✅ Списано 30.0. Баланс: $70.0
+ */

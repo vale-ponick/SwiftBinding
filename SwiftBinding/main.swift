@@ -9,20 +9,12 @@ import Foundation
 
 // MARK: - 📋 О ПРОЕКТЕ
 
-print("📋 Swift Patterns Dictionary: A dictionary app for interactive learning, revision, and quick reference of engineering patterns and Swift language bindings.")
-print("🖖 Авторы: vale.ponick 🚕💨, DeepSeek AI Spock 🖖, Google AI, bro 🧠")
-print("📌 Принцип: «Не просто учи тему — сразу проектируй инструмент, который поможет её применять.»")
-print("")
+
 
 // MARK: - 🚕💨 ЗАПУСК ЗАДАЧ
+showBinding(for: "1")
 
 // runCharlotteV1()
-// runCharlotteV2()
-// runCharlotteV3()
-// runCharlotteV4()
-// runCharlotteV5()
-
-runCharlotteV1()
 
 
 
