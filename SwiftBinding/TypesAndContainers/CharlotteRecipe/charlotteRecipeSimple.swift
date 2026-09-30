@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// MARK: - 🍎 CHARLOTTE RECIPE — Variant 1 (Simple)
+/// MARK: - '🍎 CHARLOTTE RECIPE': level Simple
 // Tools: enum, struct, protocol, computed property, print
 
 // MARK: - Data
