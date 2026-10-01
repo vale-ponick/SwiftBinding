@@ -14,17 +14,22 @@ import Foundation
  3. Binding 4️⃣ ("Collections and Transformation"): The .first(where:) higher-order function for point-by-point search of the desired ingredient in an array without manual for loops.
  */
 // MARK: - 'Charlotte Recipe': level Middle
+
 // tool Middle: enum, struct, protocol, computed property, func, print + enum Step, + struct RecipeStep, + [RecipeStep] + .enumerated().
 
 protocol CookableMiddle {
     var summary: String { get } //
 }
+
 enum TableWeightsAndMeasuresMiddle {
     case piece, gram, glass, pinch, teaspoon, tablespoon
+    
 }
+
 enum Step {
     case beat, sift, cut, pourBase, layApples, pourTop, bake, cool, decorate
 }
+
 struct RecipeStep {
     let action: Step
     let description: String
@@ -52,6 +57,7 @@ struct IngredientCooking: CustomStringConvertible {
         "\(name) - \(quantity) \(weight)"
     }
 }
+
 struct RecipeMiddle: CookableMiddle {
     let name: String
     let ingredients: [IngredientCooking]

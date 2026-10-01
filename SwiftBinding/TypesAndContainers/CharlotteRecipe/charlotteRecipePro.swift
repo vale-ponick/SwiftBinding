@@ -17,17 +17,21 @@ import Foundation
  2. Binding 2️⃣ ("Data Security"): Using the guard operator to build a line of defense at function entry.
  3. Binding 4️⃣ ("Collections and Transformation"): The .first(where:) higher-order function for point-by-point search of the desired ingredient in an array without manual for loops.
  */
+
 // MARK: - Data
 
 protocol CookablePro {
     var summary: String { get } //
 }
+
 enum TableWeightsAndMeasuresPro {
     case piece, gram, glass, pinch, teaspoon, tablespoon
 }
+
 enum StepCooking {
     case beat, sift, cut, pourBase, layApples, pourTop, bake, cool, decorate
 }
+
 struct RecipeStepPro {
     let action: StepCooking
     let description: String
@@ -55,6 +59,7 @@ struct IngredientCook: CustomStringConvertible {
         "\(name) - \(quantity) \(weight)"
     }
 }
+
 struct RecipePro: CookablePro {
     let name: String
     let ingredients: [IngredientCook]
@@ -78,6 +83,7 @@ struct RecipePro: CookablePro {
 }
 
 // MARK: - Run
+
 func runCharlottePro() {
     print("🥧 Charlotte Recipe")
     let recipe = RecipePro(name: "🥧 Charlotte",
@@ -102,7 +108,6 @@ func runCharlottePro() {
                                       RecipeStepPro(action: .cool, description: "cool for 20 min.", duration: nil, temperature: nil),
                                       RecipeStepPro(action: .decorate, description: "sprinkle powdered sugar", duration: nil, temperature: nil)
                                      ])
-    
     
     print(recipe.summary)
     print(recipe.fullDescription)
