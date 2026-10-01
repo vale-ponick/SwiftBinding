@@ -12,17 +12,17 @@ import Foundation
 
 // MARK: - Data
 
-protocol CookableV1 {
-    var summary: String { get }
+protocol Cookable { // техническое задание(интерфейс-контракт), который описывает, какими свойствами и методами должен обладать объект, но сам по себе этот протокол ничего не реализует.
+    var summary: String { get } // ставит условие(требование): «Каждый, кто подпишет контракт Cookable, обязан предоставить мне готовую строку типа String».
 }
 
-enum TableWeightsAndMeasuresV1 {
+enum TableWeightsAndMeasures {
     case piece, gram, glass, pinch, teaspoon, tablespoon
 }
 
-struct IngredientV1: CustomStringConvertible {
+struct Ingredient: CustomStringConvertible {
     let name: String
-    let weight: TableWeightsAndMeasuresV1
+    let weight: TableWeightsAndMeasures
     let quantity: Double
 
     var description: String {
@@ -30,9 +30,9 @@ struct IngredientV1: CustomStringConvertible {
     }
 }
 
-struct RecipeV1: CookableV1 {
+struct Recipe: Cookable {
     let name: String
-    let ingredients: [IngredientV1]
+    let ingredients: [Ingredient]
     let time: Int
     let temperature: Int
 
@@ -53,21 +53,21 @@ struct RecipeV1: CookableV1 {
 
 // MARK: - Run
 
-func runCharlotteV1() {
-    print("🍏 EASY: Charlotte Recipe — Variant 1 (Simple)")
+func runCharlotte() {
+    print("🍏 EASY: Charlotte Recipe — level Simple")
 
-    let charlotte = RecipeV1(
+    let charlotte = Recipe(
         name: "🍏🥧 Charlotte",
         ingredients: [
-            IngredientV1(name: "🥚 eggs", weight: .piece, quantity: 2),
-            IngredientV1(name: "🍬 sugar", weight: .glass, quantity: 1),
-            IngredientV1(name: "🥡 flour", weight: .glass, quantity: 1),
-            IngredientV1(name: "🧂 salt", weight: .pinch, quantity: 1),
-            IngredientV1(name: "🍂 cinnamon", weight: .pinch, quantity: 1.0),
-            IngredientV1(name: "🌰 nutmeg", weight: .pinch, quantity: 1),
-            IngredientV1(name: "🍏 apple", weight: .piece, quantity: 7),
-            IngredientV1(name: "☁️ baking powder", weight: .teaspoon, quantity: 0.5),
-            IngredientV1(name: "☁️ powdered sugar", weight: .tablespoon, quantity: 1.0)
+            Ingredient(name: "🥚 eggs", weight: .piece, quantity: 2),
+            Ingredient(name: "🍬 sugar", weight: .glass, quantity: 1),
+            Ingredient(name: "🥡 flour", weight: .glass, quantity: 1),
+            Ingredient(name: "🧂 salt", weight: .pinch, quantity: 1),
+            Ingredient(name: "🍂 cinnamon", weight: .pinch, quantity: 1.0),
+            Ingredient(name: "🌰 nutmeg", weight: .pinch, quantity: 1),
+            Ingredient(name: "🍏 apple", weight: .piece, quantity: 7),
+            Ingredient(name: "☁️ baking powder", weight: .teaspoon, quantity: 0.5),
+            Ingredient(name: "☁️ powdered sugar", weight: .tablespoon, quantity: 1.0)
         ],
         time: 45,
         temperature: 180

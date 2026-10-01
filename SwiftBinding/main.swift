@@ -12,9 +12,9 @@ import Foundation
 
 
 // MARK: - 🚕💨 ЗАПУСК ЗАДАЧ
-showBinding(for: "1")
+// showBinding(for: "1")
 
-// runCharlotteV1()
-
+// runCharlotte()
+runStepsCooking()
 
 
