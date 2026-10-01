@@ -7,7 +7,6 @@
 
 import Foundation
 
-// TS: Validate the array of ingredients in the bowl. If Vale & Mama Lusia forgot to cut or add apples, added too much sugar, or messed up the proportions, the program should throw a hard custom exception (throw), which we'll safely handle at the top level in a do-catch block.
 /**
  🧩 What concepts from our bindings are we practicing:
  1. Binding 6️⃣ ("Errors and Handling"): Creating an error matrix enum:Error, throws markers, the throw interrupt operator, and the do-catch safe zone.
@@ -59,7 +58,7 @@ struct RecipeMiddle: CookableMiddle {
     let steps: [RecipeStep]
     
     var summary: String {
-        "This is a delicious recipe from Lucy's mom & Vale:"
+        "This is a delicious recipe from Lucy's mom & Vale for 🥧 '\(name)':"
     }
     
     var fullDescription: String {
@@ -97,7 +96,7 @@ func runStepsCooking() {
                                       RecipeStep(action: .layApples, description: "Sprinkle apples with cinnamon", duration: nil, temperature: nil),
                                       RecipeStep(action: .pourTop, description: "the apples should be covered with dough", duration: nil, temperature: nil),
                                       RecipeStep(action: .bake, description: "bake until golden brown", duration: "bake 45 min.", temperature: 180),
-                                      RecipeStep(action: .cool, description: "let the pie cool", duration: "20 min.", temperature: nil),
+                                      RecipeStep(action: .cool, description: "cool for 20 min.", duration: nil, temperature: nil),
                                       RecipeStep(action: .decorate, description: "sprinkle powdered sugar", duration: nil, temperature: nil)
                                      ])
     
@@ -107,7 +106,7 @@ func runStepsCooking() {
 }
 /*
  🥧 Charlotte Recipe from Lucy's mom & Vale  - level Middle
- This is a delicious recipe from Lucy's mom & Vale:
+ This is a delicious recipe from Lucy's mom & Vale for 'Charlotte':
  🥚 eggs - 2.0 piece
  🍬 sugar - 1.0 glass
  🥡 flour - 1.0 glass
