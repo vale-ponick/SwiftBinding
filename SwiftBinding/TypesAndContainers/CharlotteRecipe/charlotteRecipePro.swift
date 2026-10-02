@@ -32,6 +32,12 @@ enum StepCooking {
     case beat, sift, cut, pourBase, layApples, pourTop, bake, cool, decorate
 }
 
+enum CharlotteError: Error {
+    case applesNotCut
+    case ingredientsMissing(name: String)
+    case wrongProportions
+}
+
 struct RecipeStepPro {
     let action: StepCooking
     let description: String
@@ -82,33 +88,66 @@ struct RecipePro: CookablePro {
     }
 }
 
+// MARK: Validation
+
+func validate(_ recipe: RecipePro) throws {
+    guard let eggs = recipe.ingredients.first(where: {  $0.name.contains("eggs") }) else {
+        throw CharlotteError.ingredientsMissing(name:"eggs")
+    }
+    guard let sugar = recipe.ingredients.first(where: {  $0.name.contains("sugar") }) else {
+        throw CharlotteError.ingredientsMissing(name:"sugar")
+    }
+    guard let flour = recipe.ingredients.first(where: {  $0.name.contains("flour") }) else {
+        throw CharlotteError.ingredientsMissing(name:"flour")
+    }
+    guard let apples = recipe.ingredients.first(where: {  $0.name.contains("apples") }) else {
+        throw CharlotteError.ingredientsMissing(name:"apples")
+    }
+    
+    let k = eggs.quantity / 2
+    
+    guard sugar.quantity == 1 * k,
+          flour.quantity == 1 * k,
+          apples.quantity == 7 * k else {
+        throw CharlotteError.wrongProportions
+    }
+    
+    guard recipe.steps.contains(where: { $0.action == .cut }) else {
+        throw CharlotteError.applesNotCut
+    }
+}
+
 // MARK: - Run
 
-func runCharlottePro() {
-    print("🥧 Charlotte Recipe")
-    let recipe = RecipePro(name: "🥧 Charlotte",
-                              ingredients: [IngredientCook(
+    func runCharlottePro() {
+        print("🥧 Charlotte Recipe")
+        let recipe = RecipePro(name: "🥧 Charlotte",
+                               ingredients: [IngredientCook(
                                 name: "🥚 eggs", weight: .piece, quantity: 2),
-                                            IngredientCook(name: "🍬 sugar", weight: .glass, quantity: 1),
-                                            IngredientCook(name: "🥡 flour", weight: .glass, quantity: 1),
-                                            IngredientCook(name: "🧂 salt", weight: .pinch, quantity: 1),
-                                            IngredientCook(name: "🍂 cinnamon", weight: .pinch, quantity: 1.0),
-                                            IngredientCook(name: "🌰 nutmeg", weight: .pinch, quantity: 1),
-                                            IngredientCook(name: "🍏 apple", weight: .piece, quantity: 7),
-                                            IngredientCook(name: "☁️ baking powder", weight: .teaspoon, quantity: 0.5),
-                                            IngredientCook(name: "☁️ powdered sugar", weight: .tablespoon, quantity: 1.0)],
-                              
-                              steps: [RecipeStepPro (action: StepCooking.beat, description: "beat eggs with sugar", duration: "beat for about 15 min. until a thick, homogeneous foam appears", temperature: nil),
-                                      RecipeStepPro(action: .sift, description: "Sift flour with baking powder and add", duration: nil, temperature: nil),
-                                      RecipeStepPro(action: .cut, description: "Cut apples on pieces", duration: nil, temperature: nil),
-                                      RecipeStepPro(action: .pourBase, description: "NB: grease the pan with oil", duration: nil, temperature: nil),
-                                      RecipeStepPro(action: .layApples, description: "Sprinkle apples with cinnamon", duration: nil, temperature: nil),
-                                      RecipeStepPro(action: .pourTop, description: "the apples should be covered with dough", duration: nil, temperature: nil),
-                                      RecipeStepPro(action: .bake, description: "bake until golden brown", duration: "bake 45 min.", temperature: 180),
-                                      RecipeStepPro(action: .cool, description: "cool for 20 min.", duration: nil, temperature: nil),
-                                      RecipeStepPro(action: .decorate, description: "sprinkle powdered sugar", duration: nil, temperature: nil)
-                                     ])
-    
-    print(recipe.summary)
-    print(recipe.fullDescription)
-}
+                                             IngredientCook(name: "🍬 sugar", weight: .glass, quantity: 1),
+                                             IngredientCook(name: "🥡 flour", weight: .glass, quantity: 1),
+                                             IngredientCook(name: "🧂 salt", weight: .pinch, quantity: 1),
+                                             IngredientCook(name: "🍂 cinnamon", weight: .pinch, quantity: 1.0),
+                                             IngredientCook(name: "🌰 nutmeg", weight: .pinch, quantity: 1),
+                                             IngredientCook(name: "🍏 apples", weight: .piece, quantity: 7),
+                                             IngredientCook(name: "☁️ baking powder", weight: .teaspoon, quantity: 0.5),
+                                             IngredientCook(name: "☁️ powdered sugar", weight: .tablespoon, quantity: 1.0)],
+                               
+                               steps: [RecipeStepPro (action: StepCooking.beat, description: "beat eggs with sugar", duration: "beat for about 15 min. until a thick, homogeneous foam appears", temperature: nil),
+                                       RecipeStepPro(action: .sift, description: "Sift flour with baking powder and add", duration: nil, temperature: nil),
+                                       RecipeStepPro(action: .cut, description: "Cut apples on pieces", duration: nil, temperature: nil),
+                                       RecipeStepPro(action: .pourBase, description: "NB: grease the pan with oil", duration: nil, temperature: nil),
+                                       RecipeStepPro(action: .layApples, description: "Sprinkle apples with cinnamon", duration: nil, temperature: nil),
+                                       RecipeStepPro(action: .pourTop, description: "the apples should be covered with dough", duration: nil, temperature: nil),
+                                       RecipeStepPro(action: .bake, description: "bake until golden brown", duration: "bake 45 min.", temperature: 180),
+                                       RecipeStepPro(action: .cool, description: "cool for 20 min.", duration: nil, temperature: nil),
+                                       RecipeStepPro(action: .decorate, description: "sprinkle powdered sugar", duration: nil, temperature: nil)
+                                      ])
+        do {
+            try validate(recipe)
+            print(recipe.summary)
+            print(recipe.fullDescription)
+        } catch {
+            print("❌ Ошибка: \(error)")
+        }
+    }
