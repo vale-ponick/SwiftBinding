@@ -72,7 +72,7 @@ struct RecipePro: CookablePro {
     let steps: [RecipeStepPro]
     
     var summary: String {
-        "This is a delicious recipe from Lucy's mom & Vale for 🥧 '\(name)':"
+        "This is a delicious recipe from Lucy's mom & Vale for '\(name)':"
     }
     
     var fullDescription: String {
@@ -121,7 +121,7 @@ func validate(_ recipe: RecipePro) throws {
 
     func runCharlottePro() {
         print("🥧 Charlotte Recipe")
-        let recipe = RecipePro(name: "🥧 Charlotte",
+        let recipe = RecipePro(name: "Charlotte",
                                ingredients: [IngredientCook(
                                 name: "🥚 eggs", weight: .piece, quantity: 2),
                                              IngredientCook(name: "🍬 sugar", weight: .glass, quantity: 1),
