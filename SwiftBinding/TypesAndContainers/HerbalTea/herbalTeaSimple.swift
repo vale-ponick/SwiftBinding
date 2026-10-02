@@ -57,7 +57,7 @@ struct TeaRecipe: Brewable {
 // MARK: - Run
 
 func runHerbalTea() {
-    print("Herbal tea - level Simple")
+    print("🍵🌿 Herbal tea - level Simple")
     
     let tea = TeaRecipe(name: "Calming tea", herbs: [
         Herb(name: .mint, quantity: 1),
