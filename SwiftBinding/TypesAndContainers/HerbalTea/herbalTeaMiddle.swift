@@ -47,6 +47,11 @@ enum TeaName {
     }
 }
 
+enum TeaError: Error {
+    case waterTooCold(temperature: Int)
+    case missingIngredients
+}
+
 struct TeaRecipeStep {
     let act: TeaStep
     let temperature: Int?
