@@ -97,6 +97,13 @@ struct TeaRecipeMiddle: Infusable {
     }
 }
 
+func checkBrewingSafety(recipe: TeaRecipeMiddle) throws {
+    guard !recipe.ingredients.isEmpty else {
+        throw TeaError.missingIngredients
+    }
+    // Всё ок, пропускаем дальше
+}
+
     func runTeaSteps() {
         print(" Herbal tea recipe")
         let vitamin = TeaRecipeMiddle(name: .vitamin,
