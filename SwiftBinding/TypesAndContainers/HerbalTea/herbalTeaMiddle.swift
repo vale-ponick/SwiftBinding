@@ -25,11 +25,11 @@ enum TeaStep {
     
     var actionText: String {
         switch self {
-        case .pourIn: return "Pour in the ingredients into the teapot."
+        case .pourIn: return "🌱 Pour in the ingredients into the teapot."
         case .addBoilingWater:
-            return "Add boiling water."
+            return "🫖 Add boiling water."
         case .letItBrew:
-            return "Let it brew for a few minutes."
+            return "🍵 Let it brew for a few minutes."
         }
     }
 }
@@ -76,7 +76,7 @@ struct TeaRecipeMiddle: Infusable {
     let steps: [TeaRecipeStep]
     
     var summary: String {
-        "This is a delicious recipe from Lusy's mom & Vale for \(name.displayName)"
+        "This is a delicious recipe from Lusy's mom & Vale for '🍵🌱 \(name.displayName)'"
     }
     
     var fullDescription: String {
@@ -104,9 +104,9 @@ struct TeaRecipeMiddle: Infusable {
 }
 /**
  Herbal tea recipe
-This is a delicious recipe from Lusy's mom & Vale for Vitamin Tea
+This is a delicious recipe from Lusy's mom & Vale for '🍵🌱 Vitamin Tea'
 raspberry berries and leaves - 5.0 piece
 
 📋 Steps:
-1. Add boiling water.🌡 90
+1. 🫖 Add boiling water.🌡 90
  */
