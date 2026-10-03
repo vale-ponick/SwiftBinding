@@ -104,12 +104,16 @@ func checkBrewingSafety(recipe: TeaRecipeMiddle) throws {
     // Всё ок, пропускаем дальше
 }
 
-    func runTeaSteps() {
-        print(" Herbal tea recipe")
-        let vitamin = TeaRecipeMiddle(name: .vitamin,
-                                      ingredients: [TeaIngredient(
-                                        name: "raspberry berries and leaves", weight: .piece, quantity: 5)],
-                                      steps: [TeaRecipeStep(act: .addBoilingWater, temperature: 90)])
+func runTeaSteps() { // Убрали throws отсюда, Xcode больше не ругается снаружи!
+    print(" Herbal tea recipe")
+    let vitamin = TeaRecipeMiddle(
+        name: .vitamin,
+        ingredients: [TeaIngredient(name: "raspberry berries and leaves", weight: .piece, quantity: 5)],
+        steps: [TeaRecipeStep(act: .addBoilingWater, temperature: 90)]
+    )
+    
+    // try? означает: "попробуй проверить, если будет ошибка — просто проигнорируй её"
+    try? checkBrewingSafety(recipe: vitamin)
     
     print(vitamin.summary)
     print(vitamin.fullDescription)
