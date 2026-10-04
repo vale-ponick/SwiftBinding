@@ -187,7 +187,7 @@ func validate(recipe: TeaRecipePro) throws {
  🍵🌱 Herbal Tea - level Pro
 
  --- Test 1: Valid Recipe ---
- ✅ Рецепт одобрен!
+ ✅ Recipe approved!
  🍵 Vitamin 🍓🫐🌿 Vitamin Tea with 🍯
  🍓 raspberry - 1 x 5.0 g
  🍯 honey - 1 x 1.0 g
@@ -200,8 +200,8 @@ func validate(recipe: TeaRecipePro) throws {
 
 
  --- Test 2: Cold Water Failure ---
- ❌ Ошибка заваривания: температура 75°C слишком низкая! (Нужно минимум 85°C).
+ ❌ Error boiling: temperature 75°C too cold! (Needs min 85°C).
 
  --- Test 3: Illegal Ingredient Failure ---
- ❌ Ошибка безопасности: Мелисса запрещена! Она усыпляет разработчиков. 😴
+ ❌ Error! Mellissa not like Lucy's mom
  */
