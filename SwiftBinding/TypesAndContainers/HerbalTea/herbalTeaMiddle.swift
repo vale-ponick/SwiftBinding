@@ -81,7 +81,7 @@ struct TeaRecipeMiddle: Infusable {
     let steps: [TeaRecipeStep]
     
     var summary: String {
-        "This is a delicious recipe from Lusy's mom & Vale for '🍵🌱 \(name.displayName)'"
+        "This is a delicious recipe from Lucy's mom & Vale for '🍵🌱 \(name.displayName)'"
     }
     
     var fullDescription: String {
@@ -120,7 +120,7 @@ func runTeaSteps() { // Убрали throws отсюда, Xcode больше н�
 }
 /**
  Herbal tea recipe
-This is a delicious recipe from Lusy's mom & Vale for '🍵🌱 Vitamin Tea'
+This is a delicious recipe from Lucy's mom & Vale for '🍵🌱 Vitamin Tea'
 raspberry berries and leaves - 5.0 piece
 
 📋 Steps:
