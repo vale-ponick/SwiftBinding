@@ -62,7 +62,7 @@ struct BrewingStepDetails {
     var fullDescription: String {
         var result = activity.actionText
         if let temperature {
-            result += "🌡 \(temperature)"
+            result += "🌡 \(temperature) °C"
         }
         if let term {
             result += "🕐 \(term)"
@@ -104,19 +104,22 @@ struct TeaRecipePro: InfusablePro {
     }
 }
 
-func validate(recipe: TeaRecipePro) throws {  // Всё ок, пропускаем дальше
+func validate(recipe: TeaRecipePro) throws {
     guard !recipe.ingredients.isEmpty else {
         throw BrewingError.missingIngredient
     }
-    guard let boilStep = recipe.steps.first(where: {$0.activity == .addBoiledWater}),
-    let temp = boilStep.temperature,
-    temp >= BrewingStandard.minTemperature else {
-        throw BrewingError.waterTooCold(temperature: BrewingStandard.minTemperature)
+    
+    guard let boilStep = recipe.steps.first(where: {$0.activity == .addBoiledWater }) else {
+            throw BrewingError.waterTooCold(temperature: 0)
+}
+    
+    if let temp = boilStep.temperature,
+    temp < BrewingStandard.minTemperature {
+        throw BrewingError.waterTooCold(temperature: temp)
     }
     guard !recipe.ingredients.contains(where: { $0.name.lowercased().contains("melissa") }) else {
         throw BrewingError.melissaNotAllowed
     }
-}
 
 func runTeaPro() {
     print("🍵🌱 Herbal Tea - level Pro")
@@ -138,8 +141,14 @@ func runTeaPro() {
         try validate(recipe: vitamin)
         print(vitamin.summary)
         print(vitamin.fullDescription)
+    } catch BrewingError.missingIngredient {
+        print("❌ Ошибка: В рецепте нет ни одного ингредиента! Нам нечего заваривать.")
+    } catch BrewingError.waterTooCold(let temp) {
+        print("❌ Ошибка заваривания: температура \(temp)°C слишком низкая! Травы не заварятся (нужно минимум \(BrewingStandard.minTemperature)°C).")
+    } catch BrewingError.melissaNotAllowed {
+        print("❌ Ошибка безопасности: Мелисса запрещена в этой лаборатории чая! Она усыпляет разработчиков. 😴")
     } catch {
-        print("❌ Ошибка: \(error)")
+        print("❌ Непредвиденная системная ошибка: \(error)")
     }
 }
 /**
@@ -150,8 +159,7 @@ func runTeaPro() {
 
  📋 Steps:
  1. 🌱 Pour in the ingredients into the teapot.
- 2. ♨️ Add boiling water.🌡 95
+ 2. ♨️ Add boiling water.🌡 95 °C
  3. ⏳ Let it brew for a few minutes.🕐 10 min
- 4. 🍵 Pour into the teacup.🌡 60
-
+ 4. 🍵 Pour into the teacup.🌡 60 °C
  */
