@@ -110,49 +110,84 @@ func validate(recipe: TeaRecipePro) throws {
     }
     
     guard let boilStep = recipe.steps.first(where: {$0.activity == .addBoiledWater }) else {
-            throw BrewingError.waterTooCold(temperature: 0)
-}
+        throw BrewingError.waterTooCold(temperature: 0)
+    }
     
     if let temp = boilStep.temperature,
-    temp < BrewingStandard.minTemperature {
+       temp < BrewingStandard.minTemperature {
         throw BrewingError.waterTooCold(temperature: temp)
     }
     guard !recipe.ingredients.contains(where: { $0.name.lowercased().contains("melissa") }) else {
         throw BrewingError.melissaNotAllowed
     }
-
-func runTeaPro() {
-    print("🍵🌱 Herbal Tea - level Pro")
+}
     
-    let vitamin = TeaRecipePro(
-        name: "Vitamin",
-        blend: .vitamin,
-        ingredients: [
-            TeaLeaf(name: "🍓 raspberry", weight: 5.0, amount: 1),
-            TeaLeaf(name: "🍯 honey", weight: 1.0, amount: 1)
-        ],
-        steps: [
-            BrewingStepDetails(activity: .pourIn, term: nil, temperature: nil),
-            BrewingStepDetails(activity: .addBoiledWater, term: nil, temperature: 95),
-            BrewingStepDetails(activity: .letItBrew, term: "10 min", temperature: nil),
-            BrewingStepDetails(activity: .pourInCap, term: nil, temperature: 60),
-        ])
-    do {
-        try validate(recipe: vitamin)
-        print(vitamin.summary)
-        print(vitamin.fullDescription)
-    } catch BrewingError.missingIngredient {
-        print("❌ Ошибка: В рецепте нет ни одного ингредиента! Нам нечего заваривать.")
-    } catch BrewingError.waterTooCold(let temp) {
-        print("❌ Ошибка заваривания: температура \(temp)°C слишком низкая! Травы не заварятся (нужно минимум \(BrewingStandard.minTemperature)°C).")
-    } catch BrewingError.melissaNotAllowed {
-        print("❌ Ошибка безопасности: Мелисса запрещена в этой лаборатории чая! Она усыпляет разработчиков. 😴")
-    } catch {
-        print("❌ Непредвиденная системная ошибка: \(error)")
+    func runTeaPro() {
+        print("🍵🌱 Herbal Tea - level Pro")
+        
+        let vitamin = TeaRecipePro(
+            name: "Vitamin",
+            blend: .vitamin,
+            ingredients: [
+                TeaLeaf(name: "🍓 raspberry", weight: 5.0, amount: 1),
+                TeaLeaf(name: "🍯 honey", weight: 1.0, amount: 1)
+            ],
+            steps: [
+                BrewingStepDetails(activity: .pourIn, term: nil, temperature: nil),
+                BrewingStepDetails(activity: .addBoiledWater, term: nil, temperature: 95),
+                BrewingStepDetails(activity: .letItBrew, term: "10 min", temperature: nil),
+                BrewingStepDetails(activity: .pourInCap, term: nil, temperature: 60),
+            ])
+        
+        // --- ЗАПУСК ТЕСТОВ ---
+        
+        // Тест 1: Проверяем успешный рецепт
+        print("\n--- Test 1: Valid Recipe ---")
+        tryPerformBrewing(recipe: vitamin)
+        
+        // Тест 2: Создаем чай со слишком холодной водой
+        print("\n--- Test 2: Cold Water Failure ---")
+        let coldTea = TeaRecipePro(
+            name: "Ice Tea Attempt",
+            blend: .refreshing,
+            ingredients: [TeaLeaf(name: "🌱 mint", weight: 2.0, amount: 2)],
+            steps: [BrewingStepDetails(activity: .addBoiledWater, term: nil, temperature: 75)] // ❌ 75°C
+        )
+        tryPerformBrewing(recipe: coldTea)
+        
+        // Тест 3: Создаем чай с запрещенной мелиссой
+        print("\n--- Test 3: Illegal Ingredient Failure ---")
+        let dangerousTea = TeaRecipePro(
+            name: "Sleepy Tea",
+            blend: .relaxing,
+            ingredients: [TeaLeaf(name: "🌿 Melissa leaves", weight: 3.0, amount: 1)], // ❌ Мелисса
+            steps: [BrewingStepDetails(activity: .addBoiledWater, term: nil, temperature: 90)]
+        )
+        tryPerformBrewing(recipe: dangerousTea)
+    }
+    
+    // Вспомогательная функция, чтобы не дублировать do-catch блоки для каждого чая!
+    func tryPerformBrewing(recipe: TeaRecipePro) {
+        do {
+            try validate(recipe: recipe)
+            print("✅ Recipe approved!")
+            print(recipe.summary)
+            print(recipe.fullDescription)
+        } catch BrewingError.missingIngredient {
+            print("❌ Error: Ingredients not found in recipe!")
+        } catch BrewingError.waterTooCold(let temp) {
+            print("❌ Error boiling: temperature \(temp)°C too cold! (Needs min \(BrewingStandard.minTemperature)°C).")
+        } catch BrewingError.melissaNotAllowed {
+            print("❌ Error! Mellissa not like Lucy's mom")
+        } catch {
+            print("❌ Unexpected error: \(error)")
     }
 }
 /**
  🍵🌱 Herbal Tea - level Pro
+
+ --- Test 1: Valid Recipe ---
+ ✅ Рецепт одобрен!
  🍵 Vitamin 🍓🫐🌿 Vitamin Tea with 🍯
  🍓 raspberry - 1 x 5.0 g
  🍯 honey - 1 x 1.0 g
@@ -162,4 +197,11 @@ func runTeaPro() {
  2. ♨️ Add boiling water.🌡 95 °C
  3. ⏳ Let it brew for a few minutes.🕐 10 min
  4. 🍵 Pour into the teacup.🌡 60 °C
+
+
+ --- Test 2: Cold Water Failure ---
+ ❌ Ошибка заваривания: температура 75°C слишком низкая! (Нужно минимум 85°C).
+
+ --- Test 3: Illegal Ingredient Failure ---
+ ❌ Ошибка безопасности: Мелисса запрещена! Она усыпляет разработчиков. 😴
  */
