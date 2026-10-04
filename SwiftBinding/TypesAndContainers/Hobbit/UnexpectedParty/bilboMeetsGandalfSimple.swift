@@ -2,17 +2,29 @@
 //  bilboMeetsGandalfSimple.swift
 //  SwiftBinding
 //  The Hobbit — Unexpected Party
-
+//
 //  Created by Валерия Пономарева on 04.10.2026.
 //
 
 import Foundation
 
-// MARK: - 'Bilbo Meets Gandalf' - Simple
+// MARK: - Bilbo Meets Gandalf — Simple
+
 /**
- TS: Gandalf comes to Bilbo. They smoke pipes and chat. Gandalf is looking for a 14th member for the 'Thorin and K'. Bilbo declines, but invites him to tea.
+ TS: Gandalf comes to Bilbo. They smoke pipes and chat.
+ Gandalf is looking for a 14th member for Thorin and Company.
+ Bilbo declines, but invites him to tea.
 
  Tools: enum, struct, protocol, computed property, for, print
+ */
+
+// MARK: - ⚙️ Инженерная суть
+
+/**
+ — Модель персонажа через struct + enum
+ — Краткая сводка через computed summary
+ — Диалог через массив [Line] + цикл for
+ — Два персонажа, один диалог — база
  */
 
 protocol Describable {
