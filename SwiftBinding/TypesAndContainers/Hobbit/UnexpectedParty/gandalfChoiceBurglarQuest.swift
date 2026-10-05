@@ -130,11 +130,13 @@ func runBurglarQuest() {
     
     print(bilbo.fullDescription)
     print("")
+    print("")
     print(analyzeCandidate(bilbo))
 }
 /**
  Bilbo Baggins - hobbit, 50 years old, short, well-fed, curly hair, bare feet
  Traits: is brave, is hospitable, loves comfort, smokes a pipe, is respectable, is decent, is venerable
+ 
 
  Gandalf drew a burglar's mark on Bilbo Baggins' door
  */
