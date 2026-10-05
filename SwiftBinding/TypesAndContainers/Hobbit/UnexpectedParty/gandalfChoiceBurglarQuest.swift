@@ -130,7 +130,6 @@ func runBurglarQuest() {
     
     print(bilbo.fullDescription)
     print("")
-    print("Hi, Vale!")
     print(analyzeCandidate(bilbo))
 }
 /**
