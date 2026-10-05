@@ -8,7 +8,7 @@
 
 import Foundation
 
-// MARK: - 'Gandalf's Choice: Burglar's Quest' - Simple
+// MARK: - Gandalf's Choice: Burglar's Quest - Simple
 
 /** TS: Gandalf stands at Bilbo Baggins's hole. He needs a 14th member of Thorin's company—one who is stealthy, brave, and ready for adventure. The venerable hobbit looks like a typical homebody, but Gandalf is an experienced wizard; he must scan Bilbo's array of qualities and render an automated engineering verdict.
  
@@ -41,7 +41,7 @@ enum Species {
 }
 
 enum Person {
-    case Bilbo, Gandalf, Thorin, Balin, Fily, Kily
+    case Bilbo, Gandalf, Thorin, Balin, Fili, Kili
     
     var displayChar: String {
         switch self {
@@ -49,8 +49,8 @@ enum Person {
         case .Gandalf: return "Gandalf or Grey Wanderer"
         case .Thorin: return "he rightful Thorin Oakenshield, King under the Mountain in exile. A proud, fierce, and stubborn leader of the House of Durin, obsessed with reclaiming his stolen kingdom and ancient gold from the dragon Smaug."
         case .Balin: return "Balin, the elder watchman of the company with keen eyesight and a sharp mind. Wise, warm-hearted, and gentle, he becomes Bilbo's closest friend and mentor among the dwarves, always ready to guide, protect, and offer council."
-        case .Fily: return "Fily, the youngest dwarven brothers and Thorin's loyal nephews. Full of youthful energy, exuberance, and sharp observation skills, they serve as the company's main scouts. Uncorrupted by greed, they are fiercely protective of the"
-        case .Kily: return "Kily, the youngest dwarven brothers and Thorin's loyal nephews. Full of youthful energy, exuberance, and sharp observation skills, they serve as the company's main scouts. Uncorrupted by greed, they are fiercely protective of the"
+        case .Fili: return "Fili, the youngest dwarven brothers and Thorin's loyal nephews. Full of youthful energy, exuberance, and sharp observation skills, they serve as the company's main scouts. Uncorrupted by greed, they are fiercely protective of the"
+        case .Kili: return "Kili, the youngest dwarven brothers and Thorin's loyal nephews. Full of youthful energy, exuberance, and sharp observation skills, they serve as the company's main scouts. Uncorrupted by greed, they are fiercely protective of the"
         }
     }
 }
@@ -80,10 +80,10 @@ enum QualityMember {
           case .cunning: return "is cunning"
           case .greedy: return "is greedy"
           case .brave: return "is brave"
-          case .loveAdventure: return "love Adventure"
+          case .loveAdventure: return "loves adventure"
           case .loveComfort: return "loves comfort"
           case .musical: return "is musical"
-          case .hospitable: return "is hospital"
+          case .hospitable: return "is hospitable"
           case .enduring: return "is enduring"
           case .pipeSmoker: return "smokes a pipe"
           case .respectable: return "is respectable"
@@ -103,7 +103,7 @@ struct CompanyMember: IdentityDescribable {
     var summary: String {
         var result = "\(name.displayChar) - \(species)"
         if let age {
-            result += ", \(age) year old."
+            result += ", \(age) years old"
         }
         return result
     }
@@ -129,10 +129,12 @@ func runBurglarQuest() {
     let bilbo = CompanyMember(name: .Bilbo, age: 50, species: .hobbit, appearance: "short, well-fed, curly hair, bare feet", qualities: [.brave, .hospitable, .loveComfort, .pipeSmoker, .respectable, .decent, .venerable])
     
     print(bilbo.fullDescription)
-    print(analyzeCandidate(.init(name: .Bilbo, age: 50, species: .hobbit, appearance: "short, well-fed, curly hair, bare feet", qualities: [.brave, .hospitable, .loveComfort, .pipeSmoker, .respectable, .decent, .venerable])))
+    print("")
+    print(analyzeCandidate(bilbo))
 }
 /**
- Bilbo Baggins - hobbit, 50 year old., short, well-fed, curly hair, bare feet
- Traits: is brave, is hospital, loves comfort, smokes a pipe, is respectable, is decent, is venerable
+ Bilbo Baggins - hobbit, 50 years old, short, well-fed, curly hair, bare feet
+ Traits: is brave, is hospitable, loves comfort, smokes a pipe, is respectable, is decent, is venerable
+
  Gandalf drew a burglar's mark on Bilbo Baggins' door
  */
