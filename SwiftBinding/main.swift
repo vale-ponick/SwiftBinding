@@ -21,4 +21,5 @@ import Foundation
 // runTeaSteps()
 // runTeaPro()
 // runBilboMeetsGandalfSimple()
-runBurglarQuest()
+// runBurglarQuest()
+rungandalfMeetsBilboMiddle()
