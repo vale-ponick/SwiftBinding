@@ -16,9 +16,9 @@ import Foundation
  
  // MARK: - 🛠️ Tools & Syntactic Bonds
  /*
-  — protocol (IdentityDescribable for custom summary representation)
+  — protocol (DescribableMiddle for custom summary representation)
   — enum + computed properties (DescribableMiddle, SpeciesMiddle, PersonMiddle, QualityMiddle)
-  — switch 
+  — switch
   — Higher-Order Functions: .map, .joined(separator:) for seamless traits transformation
   — mutating func (Dynamic data mutation within value types)
   — Logical branching (if-else state control)
@@ -43,21 +43,15 @@ protocol DescribableMiddle {
     var summary: String { get }
 }
 
-enum SpeciesMiddle {
-    case hobbit, wizard
-    
-    var displaySpecies: String {
-        switch self {
-        case .hobbit: return "hobbit"
-        case .wizard: return "wizard"
-        }
-    }
+enum SpeciesMiddle: String {
+    case hobbit = "hobbit"
+    case wizard = "wizard"
 }
 
-enum PersonMiddle {
+enum Meeting: CustomStringConvertible {
     case bilbo, gandalf
     
-    var displayPerson: String {
+    var description: String {
         switch self {
         case .bilbo: return "Bilbo Baggins"
         case .gandalf: return "Gandalf"
@@ -77,8 +71,8 @@ enum QualityMiddle {
     }
 }
 
-struct PersonMeets: DescribableMiddle {
-    let name: PersonMiddle
+struct PersonMidddle: DescribableMiddle {
+    let name: Meeting
     let species: SpeciesMiddle
     let age: Int?
     let appearance: String?
@@ -88,12 +82,8 @@ struct PersonMeets: DescribableMiddle {
     var isAdventureAccept: Bool = false
     
     var summary: String {
-        var result = "\(name.displayPerson) - \(species.displaySpecies)"
-        
-        if let age {
-            result += ", \(age) years old"
-        }
-        return result
+        let agePart = age.map { ", \($0) years old" } ?? ""
+        return "\(name) - \(species.rawValue)\(agePart)"
     }
     
     var fullDescription: String {
@@ -119,7 +109,7 @@ struct PersonMeets: DescribableMiddle {
 }
     
 func runBilboMeetsGandalfMiddle() {
-    var bilbo = PersonMeets(name: .bilbo, species: .hobbit, age: 50, appearance: "short, well-fed, curly hair, bare feet", quality: [.loveComfort, .smokePipe])
+    var bilbo = PersonMidddle(name: .bilbo, species: .hobbit, age: 50, appearance: "short, well-fed, curly hair, bare feet", quality: [.loveComfort, .smokePipe])
         
     bilbo.hearTheName()
     bilbo.respondAdventure()
@@ -127,6 +117,9 @@ func runBilboMeetsGandalfMiddle() {
     print(bilbo.fullDescription)
 }
 /**
+ 🍃 Bilbo: My God! That same Gandalf!
+ 🍃 Bilbo: I don't feel like an adventure, thank you! But come for tea tomorrow!
+
  Final status Bilbo Baggins:
  Bilbo Baggins - hobbit, 50 years old, short, well-fed, curly hair, bare feet
  Traits: loves comfort, smokes a pipe
