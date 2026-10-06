@@ -25,10 +25,10 @@ import Foundation
  — Управление памятью и ссылочные контейнеры (Reference Types):
    Применение ключевого слова `class` для моделирования отряда как ссылочного контейнера. Это подготавливает архитектуру к разделению общего состояния (Shared State) между участниками и закладывает основу для механизмов наследования.
  
- — **Инкапсуляция сигнатур типов (Type Aliasing)**:
+ — Инкапсуляция сигнатур типов (Type Aliasing):
    Использование псевдонима типа `typealias` для создания семантического слоя над коллекциями, абстрагирования инфраструктурного кода и обеспечения единой точки рефакторинга контейнеров данных.
  
- — **Детерминированное ветвление потока управления**:
+ — Детерминированное ветвление потока управления:
    Реализация предикативной логики на основе булевых флагов (`Bool`) для безопасной маршрутизации и валидации состояний системы (Edge Cases) без создания побочных эффектов (Side Effects).
  */
 
@@ -86,7 +86,7 @@ struct Dwarf: Guest {
     let hood: HoodColor
     
     var summary: String {
-        " \(name.rawValue) - \(hood.rawValue)"
+        "\(name.rawValue) - \(hood.rawValue)"
     }
 }
 
@@ -100,7 +100,7 @@ func checkDoorSign(for dwarf: Dwarf, sign: DoorSign) -> String {
 }
 
 func runSimpleArrival() {
-    let dwalin = Dwarf(name: .balin, hood: HoodColor(for: .dwalin))
+    let dwalin = Dwarf(name: .dwalin, hood: HoodColor(for: .dwalin))
     let dwalinResult = checkDoorSign(for: dwalin, sign: .clean)
     print(dwalinResult)
     let balin = Dwarf(name: .balin, hood: HoodColor(for: .balin))
