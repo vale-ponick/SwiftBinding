@@ -76,3 +76,40 @@ enum QualityMiddle {
         }
     }
 }
+
+struct PersonMeets: DescribableMiddle {
+    let name: PersonMiddle
+    let species: SpeciesMiddle
+    let age: Int?
+    let appearance: String?
+    let quality: [QualityMiddle]
+    
+    var isAwareOfGandalf: Bool = false
+    var isAdventureAccept: Bool = false
+    
+    var summary: String {
+        var result = "\(name.displayPerson) - \(species.displaySpecies)"
+        
+        if let age {
+            result += "\(age) years old"
+        }
+        return result
+    }
+    
+    var fullDescription: String {
+        var result = summary
+        
+        if let appearance {
+            result += ", \(appearance)"
+        }
+        result += "\nTraits: " + quality.map { $0.displayQuality }.joined(separator: ",")
+        
+        return result
+    }
+}
+
+func runBulgarTest() {
+    var bilbo = PersonMeets(name: .bilbo, species: .hobbit, age: 50, appearance: "short, well-fed, curly hair, bare feet", quality: [.loveComfort, .smokePipe])
+    
+    print(bilbo.fullDescription)
+}
