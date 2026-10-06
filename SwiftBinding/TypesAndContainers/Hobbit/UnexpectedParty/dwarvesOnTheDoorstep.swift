@@ -19,10 +19,10 @@ import Foundation
 
 // MARK: - ⚙️ Инженерная суть
 /*
- — **Абстракция доменной модели (Value Types)**:
-   Проектирование сущности `ArrivingDwarf` как легковесного типа значения (`struct`), инкапсулирующего строго типизированные свойства `DwarfName` и `HoodColor` для исключения уязвимостей, связанных с сырыми строковыми литералами (Zero-Hardcode).
+ — Абстракция доменной модели (Value Types):
+   Проектирование сущности `Dwarf` как легковесного типа значения (`struct`), инкапсулирующего строго типизированные свойства `DwarfName` и `HoodColor` для исключения уязвимостей, связанных с сырыми строковыми литералами (Zero-Hardcode).
  
- — **Управление памятью и ссылочные контейнеры (Reference Types)**:
+ — Управление памятью и ссылочные контейнеры (Reference Types):
    Применение ключевого слова `class` для моделирования отряда как ссылочного контейнера. Это подготавливает архитектуру к разделению общего состояния (Shared State) между участниками и закладывает основу для механизмов наследования.
  
  — **Инкапсуляция сигнатур типов (Type Aliasing)**:
@@ -76,6 +76,11 @@ enum HoodColor: String {
       }
 }
 
+enum DoorSign: String {
+    case clean = "🚪"
+    case burglar = "✨🗝️"
+}
+
 struct Dwarf: Guest {
     let name: DwarvesName
     let hood: HoodColor
@@ -85,10 +90,28 @@ struct Dwarf: Guest {
     }
 }
 
-func checkDoorSign(for dwarf: Dwarf, hasSign: Bool) -> String {
-    if hasSign {
-        return "\(dwarf.summary) saw the glowing sign, knocked, and entered the hole!"
-    } else {
-        return "\(dwarf.summary) saw a clean door and passed on by..."
+func checkDoorSign(for dwarf: Dwarf, sign: DoorSign) -> String {
+    switch sign {
+    case .clean:
+        return "\(sign.rawValue) \(dwarf.summary) saw a clean door and passed on by..."
+    case .burglar:
+        return "\(sign.rawValue) \(dwarf.summary) saw the glowing sign, knocked, and entered the hole!"
     }
 }
+
+func runSimpleArrival() {
+    let dwalin = Dwarf(name: .balin, hood: HoodColor(for: .dwalin))
+    let dwalinResult = checkDoorSign(for: dwalin, sign: .clean)
+    print(dwalinResult)
+    let balin = Dwarf(name: .balin, hood: HoodColor(for: .balin))
+    let balinResult = checkDoorSign(for: balin, sign: .burglar)
+    print(balinResult)
+    let thorin = Dwarf(name: .thorin, hood: HoodColor(for: .thorin))
+    let thorinResult = checkDoorSign(for: thorin,  sign: .burglar)
+    print(thorinResult)
+}
+/**
+ 🚪  Balin - dark green saw a clean door and passed on by...
+ ✨🗝️  Balin - scarlet saw the glowing sign, knocked, and entered the hole!
+ ✨🗝️  Thorin Oakenshield - sky-blue hood with a long silver tassel saw the glowing sign, knocked, and entered the hole!
+ */

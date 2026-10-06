@@ -23,4 +23,5 @@ import Foundation
 // runBilboMeetsGandalfSimple()
 // runBurglarQuest()
 // rungandalfMeetsBilboMiddle()
-runBilboMeetsGandalfMiddle()
+// runBilboMeetsGandalfMiddle()
+runSimpleArrival() 
