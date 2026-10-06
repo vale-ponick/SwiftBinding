@@ -59,9 +59,21 @@ enum HoodColor: String {
     case yellow = "yellow"
     case purple = "purple"
     case grey = "grey"
-    case white = "wite"
+    case white = "white"
     case brown = "brown"
     case paleGreen = "pale green"
+    
+    init(for dwarf: DwarvesName) {
+          switch dwarf {
+          case .dwalin: self = .darkGreen
+          case .balin: self = .scarlet
+          case .fili, .kili: self = .yellow
+          case .thorin: self = .skyBlue
+          case .dori, .nori: self = .purple
+    
+          default: self = .brown // Все остальные пока в коричневых капюшонах
+          }
+      }
 }
 
 struct Dwarf: Guest {
@@ -70,5 +82,13 @@ struct Dwarf: Guest {
     
     var summary: String {
         " \(name.rawValue) - \(hood.rawValue)"
+    }
+}
+
+func checkDoorSign(for dwarf: Dwarf, hasSign: Bool) -> String {
+    if hasSign {
+        return "\(dwarf.summary) saw the glowing sign, knocked, and entered the hole!"
+    } else {
+        return "\(dwarf.summary) saw a clean door and passed on by..."
     }
 }
