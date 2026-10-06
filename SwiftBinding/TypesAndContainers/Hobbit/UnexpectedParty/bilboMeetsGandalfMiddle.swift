@@ -114,6 +114,7 @@ func runBilboMeetsGandalfMiddle() {
     bilbo.hearTheName()
     bilbo.respondAdventure()
     print("\nFinal status Bilbo Baggins: ")
+    print("")
     print(bilbo.fullDescription)
 }
 /**
@@ -121,6 +122,7 @@ func runBilboMeetsGandalfMiddle() {
  🍃 Bilbo: I don't feel like an adventure, thank you! But come for tea tomorrow!
 
  Final status Bilbo Baggins:
+ 
  Bilbo Baggins - hobbit, 50 years old, short, well-fed, curly hair, bare feet
  Traits: loves comfort, smokes a pipe
  Aware of Gandalf: true
