@@ -17,8 +17,8 @@ import Foundation
  // MARK: - 🛠️ Tools & Syntactic Bonds
  /*
   — protocol (IdentityDescribable for custom summary representation)
-  — enum + computed properties (Race, Person, QualityMember for zero-hardcode text data)
-  — switch + where (exhaustive checking inside enums)
+  — enum + computed properties (DescribableMiddle, SpeciesMiddle, PersonMiddle, QualityMiddle)
+  — switch 
   — Higher-Order Functions: .map, .joined(separator:) for seamless traits transformation
   — mutating func (Dynamic data mutation within value types)
   — Logical branching (if-else state control)
@@ -48,8 +48,8 @@ enum SpeciesMiddle {
     
     var displaySpecies: String {
         switch self {
-        case .hobbit: return "Hobbit"
-        case .wizard: return "Wizard"
+        case .hobbit: return "hobbit"
+        case .wizard: return "wizard"
         }
     }
 }
@@ -70,9 +70,9 @@ enum QualityMiddle {
     
     var displayQuality: String {
         switch self {
-        case .smokePipe: return "smokePipe"
-        case .loveComfort: return "love Comfort"
-        case .loveAdventure: return " love Adventure"
+        case .smokePipe: return "smokes a pipe"
+        case .loveComfort: return "loves comfort"
+        case .loveAdventure: return "loves adventures"
         }
     }
 }
@@ -91,25 +91,45 @@ struct PersonMeets: DescribableMiddle {
         var result = "\(name.displayPerson) - \(species.displaySpecies)"
         
         if let age {
-            result += "\(age) years old"
+            result += ", \(age) years old"
         }
         return result
     }
     
     var fullDescription: String {
         var result = summary
-        
         if let appearance {
             result += ", \(appearance)"
         }
-        result += "\nTraits: " + quality.map { $0.displayQuality }.joined(separator: ",")
-        
+        result += "\nTraits: " + quality.map { $0.displayQuality }.joined(separator: ", ")
+        result += "\nAware of Gandalf: \(isAwareOfGandalf)"
+        result += "\nAdventure accepted: \(isAdventureAccept)"
         return result
     }
-}
-
-func runBulgarTest() {
-    var bilbo = PersonMeets(name: .bilbo, species: .hobbit, age: 50, appearance: "short, well-fed, curly hair, bare feet", quality: [.loveComfort, .smokePipe])
     
+    mutating func hearTheName() {
+        isAwareOfGandalf = true
+        print("🍃 Bilbo: My God! That same Gandalf!")
+    }
+    
+    mutating func respondAdventure() {
+        isAdventureAccept = false
+        print("🍃 Bilbo: I don't feel like an adventure, thank you! But come for tea tomorrow!")
+    }
+}
+    
+func runBilboMeetsGandalfMiddle() {
+    var bilbo = PersonMeets(name: .bilbo, species: .hobbit, age: 50, appearance: "short, well-fed, curly hair, bare feet", quality: [.loveComfort, .smokePipe])
+        
+    bilbo.hearTheName()
+    bilbo.respondAdventure()
+    print("\nFinal status Bilbo Baggins: ")
     print(bilbo.fullDescription)
 }
+/**
+ Final status Bilbo Baggins:
+ Bilbo Baggins - hobbit, 50 years old, short, well-fed, curly hair, bare feet
+ Traits: loves comfort, smokes a pipe
+ Aware of Gandalf: true
+ Adventure accepted: false
+ */
