@@ -56,7 +56,7 @@ enum DoorState {
 
 class Door {
     private(set) var state: DoorState = .closed // инкапсуляции: «Чтение — всем, запись — только себе»
-    var hasMark: Bool
+    private(set) var hasMark: Bool
     
     init(hasMark: Bool) {
         self.hasMark = hasMark
