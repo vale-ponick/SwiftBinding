@@ -18,6 +18,8 @@
  — typealias (семантическая абстракция коллекций)
  — enum + switch (управление состояниями системы)
  — extension (изоляция логики форматирования)
+ — .map + CaseIterable (компактное создание коллекции)
+ — where в for (фильтрация)
  */
 
 // MARK: - ⚙️ Инженерная суть
@@ -33,6 +35,9 @@
 
  — Многовекторное управление потоком через полиморфные состояния:
    enum DoorState вместо Bool. Каскадные триггеры через switch-case.
+ 
+ — Функциональное создание коллекции:
+   .map + CaseIterable вместо ручного перечисления 13 объектов.
  */
 
 // MARK: - Data
@@ -57,17 +62,9 @@ class Door {
         self.hasMark = hasMark
     }
     
-    func openQuietly() {
-        state = .openQuietly
-    }
-    
-    func swingOpen() {
-        state = .swungOpen
-    }
-    
-    func eraseMark() {
-        hasMark = false
-    }
+    func openQuietly() { state = .openQuietly }
+    func swingOpen() { state = .swungOpen }
+    func eraseMark() { hasMark = false }
 }
 
 class DwarvenGuest: UnexpectedGuest {
@@ -110,24 +107,9 @@ func runThorinCompanyGathered() {
     
     let door = Door(hasMark: true)
     
-    // Все 13 гномов
-    let dwalin = DwarvenGuest(name: .dwalin, hood: .darkGreen)
-    let balin = DwarvenGuest(name: .balin, hood: .scarlet)
-    let fili = DwarvenGuest(name: .fili, hood: .yellow)
-    let kili = DwarvenGuest(name: .kili, hood: .yellow)
-    let dori = DwarvenGuest(name: .dori, hood: .purple)
-    let nori = DwarvenGuest(name: .nori, hood: .purple)
-    let ori = DwarvenGuest(name: .ori, hood: .grey)
-    let oin = DwarvenGuest(name: .oin, hood: .brown)
-    let gloin = DwarvenGuest(name: .gloin, hood: .brown)
-    let bifur = DwarvenGuest(name: .bifur, hood: .brown)
-    let bofur = DwarvenGuest(name: .bofur, hood: .brown)
-    let bombur = DwarvenGuest(name: .bombur, hood: .brown)
-    let thorin = DwarvenGuest(name: .thorin, hood: .skyBlue)
-    
-    let company: ThorinCompany = [
-        dwalin, balin, fili, kili, dori, nori, ori, oin, gloin, bifur, bofur, bombur, thorin
-    ]  // ← typealias в деле
+    let company: ThorinCompany = DwarvesName.allCases.map {
+        DwarvenGuest(name: $0, hood: HoodColor(for: $0))
+    }
     
     door.openQuietly() // Первые 9 — дверь тихо открывается
     for dwarf in company.prefix(9) {
@@ -146,12 +128,9 @@ func runThorinCompanyGathered() {
     print("🍽️ \(company.count) dwarves in the dining room. The company is assembled!")
     
     print("\n📜 Dining Room Guest List:")
-    for dwarf in company {
-        if dwarf.isInside {
-            print(dwarf.summary)
-        }
+    for dwarf in company where dwarf.isInside {
+        print(dwarf.summary)
     }
-    
 }
 /**
  🚪 Thorin Company Gathered — Middle

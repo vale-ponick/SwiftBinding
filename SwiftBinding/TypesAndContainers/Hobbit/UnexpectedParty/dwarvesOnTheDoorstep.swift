@@ -36,7 +36,7 @@ protocol Guest {
     var summary: String { get } // вычисляемое свойство - геттер
 }
 
-enum DwarvesName: String {
+enum DwarvesName: String, CaseIterable {
     case balin = "Balin"
     case thorin = "Thorin Oakenshield"
     case dwalin = "Dwalin"
