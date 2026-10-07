@@ -24,4 +24,5 @@ import Foundation
 // runBurglarQuest()
 // rungandalfMeetsBilboMiddle()
 // runBilboMeetsGandalfMiddle()
-runSimpleArrival() 
+// runSimpleArrival()
+runThorinCompanyGathered()
