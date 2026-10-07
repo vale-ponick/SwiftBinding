@@ -50,7 +50,7 @@ enum DoorState {
 }
 
 class Door {
-    var state: DoorState = .closed
+    private(set) var state: DoorState = .closed // инкапсуляции: «Чтение — всем, запись — только себе»
     var hasMark: Bool
     
     init(hasMark: Bool) {
@@ -74,8 +74,8 @@ class DwarvenGuest: UnexpectedGuest {
     let name: DwarvesName
     let hood: HoodColor
     
-    var isInside: Bool = false
-    var didFall: Bool = false
+    private(set) var isInside: Bool = false
+    private(set) var didFall: Bool = false
     
     init(name: DwarvesName, hood: HoodColor) {
         self.name = name
@@ -144,6 +144,14 @@ func runThorinCompanyGathered() {
     door.eraseMark()
     print("🍃 Bilbo apologizes.")
     print("🍽️ \(company.count) dwarves in the dining room. The company is assembled!")
+    
+    print("\n📜 Dining Room Guest List:")
+    for dwarf in company {
+        if dwarf.isInside {
+            print(dwarf.summary)
+        }
+    }
+    
 }
 /**
  🚪 Thorin Company Gathered — Middle
@@ -165,4 +173,19 @@ func runThorinCompanyGathered() {
  🧙‍♂️ Gandalf laughs, removes the mark...
  🍃 Bilbo apologizes.
  🍽️ 13 dwarves in the dining room. The company is assembled!
+
+ 📜 Dining Room Guest List:
+ Dwalin - dark green
+ Balin - scarlet
+ Fili - yellow
+ Kili - yellow
+ Dori - purple
+ Nori - purple
+ Ori - grey
+ Oin - brown
+ Gloin - brown
+ Bifur - brown
+ Bofur - brown
+ Bombur - brown
+ Thorin Oakenshield - sky-blue hood with a long silver tassel
 */
