@@ -82,7 +82,7 @@ class DwarvenGuest: UnexpectedGuest {
         self.hood = hood
     }
     
-    func enter(_ door: Door) {
+    func approach(_ door: Door) {
         switch door.state {
         case .closed:
             print("🚪 \(name.rawValue) looks at the closed door and sees Gandalf's sign.")
@@ -110,40 +110,59 @@ func runThorinCompanyGathered() {
     
     let door = Door(hasMark: true)
     
-    // Первые гномы — дверь открывается тихо
-    let balin = DwarvenGuest(name: .balin, hood: .scarlet)
+    // Все 13 гномов
     let dwalin = DwarvenGuest(name: .dwalin, hood: .darkGreen)
-    
-    balin.enter(door)          // closed
-    dwalin.enter(door)         // closed
-    
-    door.openQuietly()
-    
-    balin.enter(door)          // openQuietly
-    dwalin.enter(door)         // openQuietly
-    
-    // Последние — Бильбо резко распахивает
-    door.swingOpen()
-    
+    let balin = DwarvenGuest(name: .balin, hood: .scarlet)
+    let fili = DwarvenGuest(name: .fili, hood: .yellow)
+    let kili = DwarvenGuest(name: .kili, hood: .yellow)
+    let dori = DwarvenGuest(name: .dori, hood: .purple)
+    let nori = DwarvenGuest(name: .nori, hood: .purple)
+    let ori = DwarvenGuest(name: .ori, hood: .grey)
+    let oin = DwarvenGuest(name: .oin, hood: .brown)
+    let gloin = DwarvenGuest(name: .gloin, hood: .brown)
+    let bifur = DwarvenGuest(name: .bifur, hood: .brown)
+    let bofur = DwarvenGuest(name: .bofur, hood: .brown)
+    let bombur = DwarvenGuest(name: .bombur, hood: .brown)
     let thorin = DwarvenGuest(name: .thorin, hood: .skyBlue)
-    thorin.enter(door)         // swungOpen — падает
+    
+    let company: ThorinCompany = [
+        dwalin, balin, fili, kili, dori, nori, ori, oin, gloin, bifur, bofur, bombur, thorin
+    ]  // ← typealias в деле
+    
+    door.openQuietly() // Первые 9 — дверь тихо открывается
+    for dwarf in company.prefix(9) {
+           dwarf.approach(door)
+       }
+    
+    door.swingOpen() // Последние 4 — Бильбо резко распахивает
+    for dwarf in company.suffix(4) {
+        dwarf.approach(door)
+    }
     
     // Развязка
     print("\n🧙‍♂️ Gandalf laughs, removes the mark...")
     door.eraseMark()
     print("🍃 Bilbo apologizes.")
-    print("🍽️ Everyone proceeds to the dining room. The company is assembled!")
+    print("🍽️ \(company.count) dwarves in the dining room. The company is assembled!")
 }
 /**
-🚪 Thorin Company Gathered — Middle
+ 🚪 Thorin Company Gathered — Middle
 
-🚪 Balin looks at the closed door and sees Gandalf's sign.
-🚪 Dwalin looks at the closed door and sees Gandalf's sign.
-🍃 Balin steps inside quietly, bows, and takes off the scarlet hood.
-🍃 Dwalin steps inside quietly, bows, and takes off the dark green hood.
-💥 The door yanks open! Thorin Oakenshield loses balance and tumbles into the hallway in a heap!
+ 🍃 Dwalin steps inside quietly, bows, and takes off the dark green hood.
+ 🍃 Balin steps inside quietly, bows, and takes off the scarlet hood.
+ 🍃 Fili steps inside quietly, bows, and takes off the yellow hood.
+ 🍃 Kili steps inside quietly, bows, and takes off the yellow hood.
+ 🍃 Dori steps inside quietly, bows, and takes off the purple hood.
+ 🍃 Nori steps inside quietly, bows, and takes off the purple hood.
+ 🍃 Ori steps inside quietly, bows, and takes off the grey hood.
+ 🍃 Oin steps inside quietly, bows, and takes off the brown hood.
+ 🍃 Gloin steps inside quietly, bows, and takes off the brown hood.
+ 💥 The door yanks open! Bifur loses balance and tumbles into the hallway in a heap!
+ 💥 The door yanks open! Bofur loses balance and tumbles into the hallway in a heap!
+ 💥 The door yanks open! Bombur loses balance and tumbles into the hallway in a heap!
+ 💥 The door yanks open! Thorin Oakenshield loses balance and tumbles into the hallway in a heap!
 
-🧙‍♂️ Gandalf laughs, removes the mark...
-🍃 Bilbo apologizes.
-🍽️ Everyone proceeds to the dining room. The company is assembled!
+ 🧙‍♂️ Gandalf laughs, removes the mark...
+ 🍃 Bilbo apologizes.
+ 🍽️ 13 dwarves in the dining room. The company is assembled!
 */
