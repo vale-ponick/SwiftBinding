@@ -64,3 +64,13 @@ func runThorinCompanyGatheredSimple(door: DoorStateSimple) {
         print("🍽️ \(company.count) dwarves in the dining room. The company is assembled!")
     }
 }
+/**
+ Bilbo is angry... the Balin fall on top of each other.
+ Bilbo is angry... the Dwalin fall on top of each other.
+ Bilbo is angry... the Fili fall on top of each other.
+ Bilbo is angry... the Thorin Oakenshield fall on top of each other.
+
+ 🧙‍♂️ Gandalf laughs. The magic mark disappears.
+ 🍃 Bilbo apologizes.
+ 🍽️ 4 dwarves in the dining room. The company is assembled!
+ */
