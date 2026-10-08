@@ -25,4 +25,5 @@ import Foundation
 // rungandalfMeetsBilboMiddle()
 // runBilboMeetsGandalfMiddle()
 // runSimpleArrival()
-runThorinCompanyGathered()
+// runThorinCompanyGathered()
+runThorinCompanyGatheredSimple(door: .doorOpenSharply)
