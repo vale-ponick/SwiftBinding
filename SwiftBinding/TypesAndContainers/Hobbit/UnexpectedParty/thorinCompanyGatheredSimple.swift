@@ -59,7 +59,8 @@ func runThorinCompanyGatheredSimple(door: DoorStateSimple) {
         for dwarf in company {
             print(dwarf.react(to: door))
         }
-        print("\n🧙‍♂️ Gandalf laughs. The magic mark disappears.")
+        print("\n🧙‍♂️ Gandalf laughs.")
+        print("The magic mark on door disappears.")
         print("🍃 Bilbo apologizes.")
         print("🍽️ \(company.count) dwarves in the dining room. The company is assembled!")
     }
