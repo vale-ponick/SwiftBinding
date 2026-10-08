@@ -26,4 +26,5 @@ import Foundation
 // runBilboMeetsGandalfMiddle()
 // runSimpleArrival()
 // runThorinCompanyGathered()
-runThorinCompanyGatheredSimple(door: .doorOpenSharply)
+// runThorinCompanyGatheredSimple(door: .doorOpenSharply)
+runSome() 
