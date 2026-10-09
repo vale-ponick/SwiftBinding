@@ -27,4 +27,4 @@ import Foundation
 // runSimpleArrival()
 // runThorinCompanyGathered()
 // runThorinCompanyGatheredSimple(door: .doorOpenSharply)
-runSome() 
+runThorinCompanyGatheredPro()

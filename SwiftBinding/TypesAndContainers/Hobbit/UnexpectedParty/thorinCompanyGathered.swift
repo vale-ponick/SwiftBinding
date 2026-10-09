@@ -1,4 +1,10 @@
+//  thorinCompanyGatheredMiddle.swift
+//  SwiftBinding
 //
+//  Created by Валерия Пономарева on 07.10.2026.
+//
+import Foundation
+
 // MARK: - Thorin Company Gathered — Middle
 
 // MARK: - 🎬 Plot
