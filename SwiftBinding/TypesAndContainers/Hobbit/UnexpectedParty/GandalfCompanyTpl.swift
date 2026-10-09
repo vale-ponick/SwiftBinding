@@ -8,38 +8,37 @@
 import Foundation
 
 // МИНИ-ШАБЛОН: все связки 1️⃣–9️⃣ в одном файле
-// Суффикс "Tpl" — чтобы не конфликтовать с другими сценами
+// MARK: - 'Gandalf Company Template' - суффикс tpl, чтобы не было конфликта имен
 // Сюжет: Гэндальф собирает отряд. 13 гномов — несчастливое число. Нужен 14-й — Бильбо-взломщик.
 
 
 // 1️⃣ ТИПЫ И КОНТЕЙНЕРЫ
 
-// protocol — «контракт»: что обязан уметь тип, который его подписывает.
-// Сам по себе ничего не делает — только описывает требования.
+// protocol — «контракт»: что обязан уметь ТИП, который его подписывает.
+// ПРОТОКОЛ ничего НЕ делает — only ОПИСЫВАЕТ требования.
 protocol DescribableTpl {
-    var summary: String { get }   // { get } — только чтение, без записи
+    var summary: String { get }   // { get } — only чтение, без записи
 }
 
 // enum — фиксированный список вариантов.
-// ": String" — значит у каждого case есть строковое значение (rawValue).
-// Пример: RaceTpl.hobbit.rawValue == "hobbit"
+// ": String" —> у каждого case auto есть строковое значение - rawValue. Example: RaceTpl.hobbit.rawValue == "hobbit"
 enum RaceTpl: String {
     case hobbit, dwarf, wizard
 }
 
-// 7️⃣ class — ССЫЛОЧНЫЙ тип (в отличие от struct — ЗНАЧИМОГО).
-// Нужен здесь, потому что:
+// 7️⃣ class — ССЫЛОЧНЫЙ тип (в отличие от struct: value type). Нужен здесь, потому что:
 //   1) weak работает ТОЛЬКО с классами
-//   2) отряд и его члены должны ссылаться друг на друга
-class CompanionTpl: DescribableTpl {
+//   2) Двусторонняя связь( bidirectional relationship) = Осведомленность + Прямое действие:  два объекта (гнома) знают о существовании друг друга + могут взаимодействовать напрямую в обе стороны
+class DwarfTpl: DescribableTpl {
+    
     let name: String
     let race: RaceTpl
 
     // weak — СЛАБАЯ ссылка на отряд.
-    // Обычная (сильная) ссылка «держит» объект в памяти.
-    // Если бы и CompanyTpl держал CompanionTpl, и CompanionTpl держал CompanyTpl
-    // сильными ссылками — возник бы ЦИКЛ, и оба никогда не удалились бы (утечка).
-    // weak разрывает цикл: гном знает отряд, но НЕ держит его.
+    // Обычная (сильная) ссылка «держит» объект (гнома) в памяти.
+    // Если бы и CompanyTpl (отряд) держал DwarfTpl (гнома), и DwarfTpl держал CompanyTpl
+    // сильными ссылками — возник бы ЦИКЛ, и оба никогда не удалились бы (утечка памяти).
+    // weak разрывает цикл: гном ЗНАЕТ отряд, но НЕ держит его.
     weak var company: CompanyTpl?
 
     init(name: String, race: RaceTpl) {
@@ -47,8 +46,8 @@ class CompanionTpl: DescribableTpl {
         self.race = race
     }
 
-    // computed property — значение НЕ хранится, а вычисляется каждый раз при чтении.
-    // В отличие от let name (stored property — хранится в памяти).
+    // computed property — значение НЕ хранится, а ВЫЧИСЛЯЕТСЯ каждый раз при чтении.
+    // В отличие от let name (stored property) — хранится в памяти.
     var summary: String {
         "\(name) (\(race.rawValue))"
     }
@@ -57,30 +56,29 @@ class CompanionTpl: DescribableTpl {
 // 7️⃣ + 5️⃣ + 8️⃣
 // class CompanyTpl — отряд. Держит участников, лидера, знает Гэндальфа.
 class CompanyTpl {
-    // private(set) — читать можно всем, а менять — только внутри класса.
-    // Защита от случайной порчи массива извне (инкапсуляция).
-    private(set) var members: [CompanionTpl] = []
+    // private(set) — ЧИТАТЬ можно всем, а менять — только ВНУТРИ класса.
+    // Защита от случайной порчи массива извне  <- ИНКАПСУЛЯЦИЯ.
+    private(set) var members: [DwarfTpl] = []
 
     // Сильная ссылка на лидера — отряд «держит» Торина.
-    var leader: CompanionTpl?
+    var leader: DwarfTpl?
 
     // weak — Гэндальф «держит» отряд, а отряд на Гэндальфа ссылается слабо.
     // Так цикл CompanyTpl ↔ WizardTpl разорван.
     weak var wizard: WizardTpl?
 
-    // 8️⃣ closure — замыкание, которое хранится в свойстве.
-    // Тип: (CompanionTpl) -> Void — принимает гнома, ничего не возвращает.
+    // 8️⃣ closure — замыкание, это stored property (хранимое свойство) класса CompanyTpl.
+    // Тип: (DwarfTpl) -> Void — принимает гнома, ничего не возвращает.
     // Знак "?" — замыкание может быть nil (не задано).
-    var onNewMember: ((CompanionTpl) -> Void)?
+    var onNewMember: ((DwarfTpl) -> Void)?
 
-    // init — конструктор. Пустой, потому что все свойства уже имеют
-    // значения по умолчанию ([] и nil).
+    // init — конструктор. Пустой, т.к. все свойства уже имеют значения по умолчанию ([] и nil).
     init() {}
 
-    // add — добавляет участника и налаживает ОБРАТНУЮ связь.
+    // add — добавляет участника и налаживает ОБРАТНУЮ связь объекта с объектом: гнома с отрядом.
     // member.company = self — гном теперь знает свой отряд (через weak).
     // onNewMember?(member) — если замыкание задано, вызвать его.
-    func add(_ member: CompanionTpl) {
+    func add(_ member: DwarfTpl) {
         members.append(member)
         member.company = self
         onNewMember?(member)
@@ -115,13 +113,12 @@ class WizardTpl {
 extension CompanyTpl {
 
     // 3️⃣ switch + where
-    // switch — перебор вариантов enum.
-    // where — ДОПОЛНИТЕЛЬНОЕ условие на конкретный case.
+    // switch — перебор вариантов enum + where — ДОПОЛНИТЕЛЬНОЕ условие на конкретный case.
     // Здесь: если раса hobbit И имя Bilbo — отдельный текст.
-    func greet(_ member: CompanionTpl) -> String {
+    func greet(_ member: DwarfTpl) -> String {
         switch member.race {
         case .hobbit where member.name == "Bilbo":
-            return "🧙‍♂️ Gandalf: Hello, burglar!"
+            return "🧙‍♂️ Gandalf: Hello, Bilbo - burglar!"
         case .hobbit:
             return "Hello, hobbit!"
         case .dwarf:
@@ -131,35 +128,31 @@ extension CompanyTpl {
         }
     }
 
-    // 4️⃣ .map — превращает массив объектов в массив имён.
-    // [CompanionTpl] -> [String]
+    // 4️⃣ .map — превращает массив объектов в массив имён. [DwarfTpl] -> [String]
     var names: [String] {
         members.map { $0.name }
     }
 
-    // 4️⃣ .filter — оставляет только тех, кто проходит условие.
-    var dwarvesOnly: [CompanionTpl] {
+    // 4️⃣ .filter — оставляет только тех, кто соответствует условию.
+    var dwarvesOnly: [DwarfTpl] {
         members.filter { $0.race == .dwarf }
     }
 
-    // 4️⃣ .contains — true, если есть ХОТЯ БЫ ОДИН подходящий элемент.
+    // 4️⃣ .contains = true, если есть ХОТЯ БЫ ОДИН подходящий элемент.
     var hasHobbit: Bool {
         members.contains { $0.race == .hobbit }
     }
 
     // 8️⃣ @escaping
     // Обычное замыкание живёт только внутри функции.
-    // @escaping — «убегающее»: может быть вызвано ПОЗЖЕ, после выхода из функции,
-    // или сохранено. Здесь forEach вызывает action сразу, но помечаем @escaping —
-    // стандартный стиль для API, принимающих замыкания.
-    func announce(_ action: @escaping (CompanionTpl) -> Void) {
+    // @escaping — «убегающее»: может быть вызвано ПОЗЖЕ, после выхода из функции, или сохранено. Здесь forEach вызывает action сразу, но помечаем @escaping — стандартный стиль для API, принимающих замыкания.
+    func announce(_ action: @escaping (DwarfTpl) -> Void) {
         members.forEach { action($0) }
     }
 }
 
 // 6️⃣ ОШИБКИ
-// enum, подписанный под Error — «матрица ошибок».
-// associated values (actual:, expected:) — ошибка несёт данные.
+// enum, подписанный под Error — «матрица ошибок». associated values (actual:, expected:) — ошибка несёт данные.
 enum CompanyErrorTpl: Error {
     case empty
     case unluckyNumber(actual: Int)
@@ -169,7 +162,7 @@ enum CompanyErrorTpl: Error {
 
 // throws — функция МОЖЕТ выбросить ошибку. Вызывающий обязан обработать.
 // guard — «линия обороны»: если условие ЛОЖНО, выйти из функции (throw/return).
-// guard удобнее if в валидации: основная логика не уезжает вправо.
+// guard удобнее if в валидации: основная логика не уезжает вправо - нет 'пирамиды погибели'.
 func validateTpl(_ company: CompanyTpl) throws {
     guard !company.members.isEmpty else {
         throw CompanyErrorTpl.empty
@@ -180,7 +173,7 @@ func validateTpl(_ company: CompanyTpl) throws {
     guard company.members.count != 13 else {
         throw CompanyErrorTpl.unluckyNumber(actual: 13)
     }
-    guard company.members.count == 14 else {
+    guard company.members.count == 14 else { // волшебные числа? хардкодим/нет?
         throw CompanyErrorTpl.notComplete(expected: 14, actual: company.members.count)
     }
 }
@@ -200,22 +193,21 @@ func runTpl() {
         print("🆕 \(member.name) joined the company!")
     }
 
-    let thorin = CompanionTpl(name: "Thorin Oakenshield", race: .dwarf)
-    let balin = CompanionTpl(name: "Balin", race: .dwarf)
-    let bilbo = CompanionTpl(name: "Bilbo Baggins", race: .hobbit)
+    let thorin = DwarfTpl(name: "Thorin Oakenshield", race: .dwarf)
+    let balin = DwarfTpl(name: "Balin", race: .dwarf)
+    let bilbo = DwarfTpl(name: "Bilbo Baggins", race: .hobbit)
 
-    company.leader = thorin    // лидер назначен до валидации
+    company.leader = thorin    // лидер назначен до валидации - см. guard company.leader != nil else { -> проверка отряда сразу завершиьтся ошибкой «Нет лидера», даже НЕ дойдя до подсчета гномов.
 
     // добавляем двух гномов + ещё 11 = 13 (несчастливое число)
     company.add(thorin)
     company.add(balin)
     for i in 1...11 {
-        company.add(CompanionTpl(name: "Dwarf \(i)", race: .dwarf))
+        company.add(DwarfTpl(name: "Dwarf \(i)", race: .dwarf))
     }
 
     // 6️⃣ do-catch
-    // try — вызов функции, которая может бросить ошибку.
-    // catch — обработка. Можно ловить КОНКРЕТНЫЕ случаи (разная реакция).
+    // try — вызов функции, которая может бросить ошибку. catch — обработка. Можно ловить КОНКРЕТНЫЕ случаи (разная реакция).
     do {
         try validateTpl(company)
         print("✅ Company complete!")
@@ -227,8 +219,7 @@ func runTpl() {
         print("⚠️ Expected \(expected), got \(actual).")
     } catch CompanyErrorTpl.noLeader {
         print("❌ No leader")
-    } catch {
-        // последний catch — «на всё остальное», обязателен
+    } catch { // последний catch — «на всё остальное», обязателен
         print("❌ Unexpected: \(error)")
     }
 
@@ -253,4 +244,46 @@ func runTpl() {
     }
 }
 
+/**
+ 🧙 Mini-template: all bindings 1️⃣–9️⃣
 
+ 🆕 Thorin Oakenshield joined the company!
+ 🆕 Balin joined the company!
+ 🆕 Dwarf 1 joined the company!
+ 🆕 Dwarf 2 joined the company!
+ 🆕 Dwarf 3 joined the company!
+ 🆕 Dwarf 4 joined the company!
+ 🆕 Dwarf 5 joined the company!
+ 🆕 Dwarf 6 joined the company!
+ 🆕 Dwarf 7 joined the company!
+ 🆕 Dwarf 8 joined the company!
+ 🆕 Dwarf 9 joined the company!
+ 🆕 Dwarf 10 joined the company!
+ 🆕 Dwarf 11 joined the company!
+ ❌ Unlucky number: 13! The quest won't start. We need a burglar.
+
+ --- Добавляем 14-го участника ---
+ 🆕 Bilbo Baggins joined the company!
+ ✅ Success! Company is complete with 14 members. The quest begins!
+
+ 📋 Members count: 14
+ 👑 Leader: Thorin Oakenshield
+ 📦 Total dwarves: 13
+
+ 📣 Greet loop:
+ Hello, dwarf!
+ Hello, dwarf!
+ Hello, dwarf!
+ Hello, dwarf!
+ Hello, dwarf!
+ Hello, dwarf!
+ Hello, dwarf!
+ Hello, dwarf!
+ Hello, dwarf!
+ Hello, dwarf!
+ Hello, dwarf!
+ Hello, dwarf!
+ Hello, dwarf!
+ Hello, hobbit!
+ Program ended with exit code: 0
+ */
