@@ -28,4 +28,5 @@ import Foundation
 // runThorinCompanyGathered()
 // runThorinCompanyGatheredSimple(door: .doorOpenSharply)
 // runThorinCompanyGatheredPro()
-runTpl()
+// runTpl()
+runList()

@@ -43,7 +43,7 @@ struct Discovery: CustomStringConvertible {
     }
 }
     
-struct DiscoveryList {
+struct DiscoveryList: CustomStringConvertible {
     var discoveries: [Discovery] = []
     private var nextId: Int = 1
    
@@ -52,6 +52,25 @@ struct DiscoveryList {
         discoveries.append(new)
         nextId += 1
     }
+    var description: String {
+        var result = "\nGreat Geo Discoveries:\n"
+        for (index, discovery) in discoveries.enumerated() {
+            result += "\(index + 1). \(discovery.description)\n"
+        }
+        return result
+    }
 }
 
-
+func runList() {
+    var list = DiscoveryList()
+    
+    list.add(
+        place: "ounded the Cape of Good Hope at the southern tip of Africa", explorer: "Bartolomeu Dias", year: 1488, country: .portugal, continent: .africa, significance: .global)
+    
+    list.add(
+        place: "New World (America)", explorer: "Christopher Columbus", year: 1492, country: .portugal, continent: .southAmerica, significance: .global)
+    list.add(
+        place: "expedition completed the first circumnavigation of the Earth", explorer: "Ferdinand Magellan", year: 1522, country: .portugal, continent: .africa, significance: .global)
+    
+    print(list)
+}
