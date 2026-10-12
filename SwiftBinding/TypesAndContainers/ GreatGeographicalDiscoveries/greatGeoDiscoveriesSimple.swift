@@ -39,7 +39,7 @@ struct Discovery: CustomStringConvertible {
     let significance: Significance
     
     var description: String {
-        "\(country) - \(explorer)"
+        "\(country.rawValue) - \(explorer) - \(year) - \(continent.rawValue) - \(significance.rawValue)"
     }
 }
     
@@ -65,12 +65,12 @@ func runList() {
     var list = DiscoveryList()
     
     list.add(
-        place: "ounded the Cape of Good Hope at the southern tip of Africa", explorer: "Bartolomeu Dias", year: 1488, country: .portugal, continent: .africa, significance: .global)
+        place: "rounded the Cape of Good Hope at the southern tip of Africa", explorer: "Bartolomeu Dias", year: 1488, country: .portugal, continent: .africa, significance: .global)
     
     list.add(
-        place: "New World (America)", explorer: "Christopher Columbus", year: 1492, country: .portugal, continent: .southAmerica, significance: .global)
+        place: "New World (America)", explorer: "Christopher Columbus", year: 1492, country: .spain, continent: .southAmerica, significance: .global)
     list.add(
-        place: "expedition completed the first circumnavigation of the Earth", explorer: "Ferdinand Magellan", year: 1522, country: .portugal, continent: .africa, significance: .global)
+        place: "expedition completed the first circumnavigation of the Earth", explorer: "Ferdinand Magellan", year: 1522, country: .spain, continent: .africa, significance: .global)
     
     print(list)
 }
